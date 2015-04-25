@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  cohort_id: 
+  name: MyString
+  github: MyString
+  assignments_repo: MyString
+
+two:
+  cohort_id: 
+  name: MyString
+  github: MyString
+  assignments_repo: MyString
