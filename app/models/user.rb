@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 
   def self.authorize_with(auth)
+    return nil unless Cohort.current.admins_include?(auth.info.nickname)
     user = where(provider: auth["provider"], uid: auth["uid"]).first_or_create
     user.tap do |u|
       u.name         = auth.info.name
