@@ -17,6 +17,7 @@ gem 'turbolinks'
 gem 'simple_form'
 gem 'omniauth-github'
 gem 'jbuilder', '~> 2.0'
+gem 'octokit'
 
 group :development, :test do
   gem 'byebug'
