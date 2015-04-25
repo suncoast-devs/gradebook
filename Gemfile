@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.2.0'
+
 gem 'rails', '4.2.1'
 gem 'puma'
 gem 'pg'
@@ -13,7 +15,8 @@ gem 'react-rails'
 gem 'therubyracer', platforms: :ruby
 gem 'turbolinks'
 gem 'simple_form'
-# gem 'jbuilder', '~> 2.0'
+gem 'omniauth-github'
+gem 'jbuilder', '~> 2.0'
 
 group :development, :test do
   gem 'byebug'
