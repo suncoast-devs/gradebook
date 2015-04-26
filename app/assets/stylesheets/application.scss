@@ -1,5 +1,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
 
 html {
   position: relative;
@@ -8,6 +10,10 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+.navbar-brand {
+  padding: 10px 15px;
 }
 
 .footer {

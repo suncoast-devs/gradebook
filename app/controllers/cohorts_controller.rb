@@ -1,4 +1,5 @@
 class CohortsController < ApplicationController
+  before_action :require_authentication
   before_action :set_cohort, only: [:show, :edit, :update, :destroy]
 
   # GET /cohorts

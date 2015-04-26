@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
     auth = request.env["omniauth.auth"]
     user = User.authorize_with(auth)
     session[:user_id] = user.id
-    redirect_to root_url, :notice => "Signed in!"
+    redirect_to root_url, :notice => "Signed in as #{current_user.name}."
   end
 
   def destroy
