@@ -12,6 +12,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'react-rails'
+gem 'react-bootstrap-rails'
 gem 'therubyracer', platforms: :ruby
 gem 'turbolinks'
 gem 'simple_form'
@@ -19,7 +20,6 @@ gem 'omniauth-github'
 gem 'jbuilder', '~> 2.0'
 gem 'octokit'
 gem 'font-awesome-sass'
-gem 'sprockets-es6'
 
 group :development, :test do
   gem 'byebug'
