@@ -6,16 +6,16 @@ var HomeworkView = React.createClass({
 
   getInitialState: function() {
     return {
-      homeworks: []
+      homework: []
     };
   },
 
-  fetchHomeworks: function() {
+  fetchHomework: function() {
     $.ajax({
       iurl: this.props.url,
       dataType: 'json',
       success: function(data) {
-        this.setState({ homeworks: data });
+        this.setState({ homework: data });
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -30,7 +30,7 @@ var HomeworkView = React.createClass({
       type: 'POST',
       data: data,
       success: function(data) {
-        this.fetchHomeworks();
+        this.fetchHomework();
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -39,7 +39,7 @@ var HomeworkView = React.createClass({
   },
 
   componentDidMount: function() {
-    this.fetchHomeworks();
+    this.fetchHomework();
   },
 
   render: function() {
@@ -47,7 +47,7 @@ var HomeworkView = React.createClass({
       <div className="page-header">
         <h1>Homework</h1>
       </div>
-      <HomeworkList homeworks={this.state.homeworks} />
+      <HomeworkList homework={this.state.homework} />
       <NewHomeworkButton onHomeworkSubmit={this.handleHomeworkCreate} />
     </div>;
   }
@@ -56,8 +56,8 @@ var HomeworkView = React.createClass({
 var HomeworkList = React.createClass({
 
   render: function() {
-    var homeworkListItemNodes = this.props.homeworks.map(function(homework) {
-      return <HomeworkListItem key={homework.id} homework={homework} />;
+    var homeworkListItemNodes = this.props.homework.map(function(data) {
+      return <HomeworkListItem key={data.id} homework={data} />;
     });
 
     return <table className="table">

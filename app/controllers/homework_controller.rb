@@ -1,17 +1,17 @@
-class HomeworksController < ApplicationController
+class HomeworkController < ApplicationController
   before_action :require_authentication
 
-  # GET /homeworks.json
+  # GET /homework.json
   def index
-    @homeworks = Homework.order(:name)
+    @homework = Homework.order(:name)
   end
 
-  # GET /homeworks/1.json
+  # GET /homework/1.json
   def show
     @homework = Homework.find(params[:id])
   end
 
-  # POST /homeworks.json
+  # POST /homework.json
   def create
     @homework = Homework.new(homework_params)
 
