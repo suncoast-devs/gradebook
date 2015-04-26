@@ -22,6 +22,23 @@ class HomeworkController < ApplicationController
     end
   end
 
+  # PATCH /homework/1.json
+  def update
+    @homework = Homework.find(params[:id])
+    if @homework.update(homework_params)
+      render :show, status: :ok, location: @homework
+    else
+      render json: @homework.errors, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /homework/1.json
+  def destroy
+    @homework = Homework.find(params[:id])
+    @homework.destroy
+    head :no_content
+  end
+
   private
 
     def homework_params
