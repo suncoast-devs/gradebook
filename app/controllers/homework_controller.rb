@@ -1,5 +1,6 @@
 class HomeworkController < ApplicationController
   before_action :require_authentication
+  before_action :find_homework, :only => [:show, :update, :destroy]
 
   # GET /homework.json
   def index
@@ -8,7 +9,6 @@ class HomeworkController < ApplicationController
 
   # GET /homework/1.json
   def show
-    @homework = Homework.find(params[:id])
   end
 
   # POST /homework.json
@@ -24,7 +24,6 @@ class HomeworkController < ApplicationController
 
   # PATCH /homework/1.json
   def update
-    @homework = Homework.find(params[:id])
     if @homework.update(homework_params)
       render :show, status: :ok, location: @homework
     else
@@ -34,12 +33,15 @@ class HomeworkController < ApplicationController
 
   # DELETE /homework/1.json
   def destroy
-    @homework = Homework.find(params[:id])
     @homework.destroy
     head :no_content
   end
 
   private
+
+    def find_homework
+      @homework = Homework.find(params[:id])
+    end
 
     def homework_params
       params[:homework].permit(:name, :summary, :body)

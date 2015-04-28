@@ -44,9 +44,6 @@ var HomeworkView = React.createClass({
 
   render: function() {
     return <div>
-      <div className="page-header">
-        <h1>Homework</h1>
-      </div>
       <HomeworkList homework={this.state.homework} afterHomeworkUpdate={this.fetchHomework} />
       <NewHomeworkButton onHomeworkSubmit={this.handleHomeworkCreate} />
     </div>;
@@ -215,7 +212,7 @@ var NewHomeworkModal = React.createClass({
 
     this.refs.name.getDOMNode().value = '';
     this.refs.summary.getDOMNode().value = '';
-    this.refs.name.getDOMNode().value = '';
+    this.refs.body.getDOMNode().value = '';
     this.props.onRequestHide();
   },
 
