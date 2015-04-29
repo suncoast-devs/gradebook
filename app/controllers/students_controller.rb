@@ -1,6 +1,6 @@
 class StudentsController < ApplicationController
   before_action :require_authentication
-  before_action :find_student, :only => [:show, :update, :destroy]
+  before_action :find_student, :only => [:show, :update, :destroy, :issues]
 
   # GET /students.json
   def index
@@ -35,6 +35,14 @@ class StudentsController < ApplicationController
   def destroy
     @student.destroy
     head :no_content
+  end
+
+  # GET /students/1/issues.json
+  def issues
+    client = Octokit::Client.new(:access_token => current_user.access_token)
+    client.auto_paginate = true
+    issues = client.issues("#{@student.github}/#{@student.assignments_repo}", :state => 'all')
+    render json: issues.map(&:to_hash)
   end
 
   private

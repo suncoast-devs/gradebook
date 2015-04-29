@@ -91,10 +91,11 @@ var StudentList = React.createClass({
       return <HomeworkHeaderItem {...this.props} key={homework.id} data={homework} assignHomework={this.assignHomework.bind(this, homework)} />;
     }.bind(this));
 
-    return <table className="table table-hover">
+    return <table className="table table-hover" id="students">
       <thead>
         <tr>
           <th>Name</th>
+          <th><i className="fa fa-lg fa-github-alt" /></th>
           {homeworkHeaderNodes}
         </tr>
       </thead>
@@ -111,13 +112,19 @@ var HomeworkHeaderItem = React.createClass({
     var tip = <BS.Tooltip>{this.props.data.name}</BS.Tooltip>;
     return <th className="assignment">
       <BS.OverlayTrigger placement='top' overlay={tip}>
-        <i className="fa fa-circle" onClick={this.props.assignHomework}></i>
+        <i className="fa fa-circle" onClick={this.props.assignHomework}/>
       </BS.OverlayTrigger>
     </th>;
   }
 });
 
 var StudentListItem = React.createClass({
+
+  getInitialState: function() {
+    return {
+      issues: []
+    }
+  },
 
   handleUpdate: function(data) {
     $.ajax({
@@ -134,6 +141,23 @@ var StudentListItem = React.createClass({
     });
   },
 
+  componentDidMount: function() {
+    this.fetchIssues();
+  },
+
+  fetchIssues: function() {
+    $.ajax({
+      url: this.props.data.issues_url,
+      dataType: 'json',
+      success: function(data) {
+        this.setState({ issues: data });
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.homework_url, status, err.toString());
+      }.bind(this)
+    });
+  },
+
   render: function() {
     var student = this.props.data;
 
@@ -145,7 +169,18 @@ var StudentListItem = React.createClass({
         };
         return null;
       }.bind(this)();
-      return <HomeworkAssignmentItem key={homework.id} homework={homework} assignment={assignment} />;
+
+      if (assignment) {
+        var issue = function() {
+          for (var i = this.state.issues.length - 1; i >= 0; i--) {
+            if (this.state.issues[i].number === assignment.issue)
+              return this.state.issues[i];
+          };
+          return null;
+        }.bind(this)();
+      };
+
+      return <HomeworkAssignmentItem key={homework.id} student={student} homework={homework} assignment={assignment} issue={issue} />;
     }.bind(this));
 
     return <tr>
@@ -153,6 +188,9 @@ var StudentListItem = React.createClass({
         <BS.ModalTrigger modal={<EditStudentModal {...this.props} onFormSubmit={this.handleUpdate} />}>
           <a href="#">{student.name}</a>
         </BS.ModalTrigger>
+      </td>
+      <td>
+        <a href={"https://github.com/" + student.github}>@{student.github}</a>
       </td>
       {assignmentNodes}
     </tr>;
@@ -162,12 +200,49 @@ var StudentListItem = React.createClass({
 var HomeworkAssignmentItem = React.createClass({
 
   render: function() {
-    var tip = <BS.Tooltip>{this.props.homework.name}</BS.Tooltip>;
-    return <td className="assignment">
-      <BS.OverlayTrigger placement='top' overlay={tip}>
-        <i className={"fa " + (this.props.assignment ? 'fa-circle' : 'fa-circle-o')}  ></i>
-      </BS.OverlayTrigger>
-    </td>;
+    var assignment = this.props.assignment;
+    var issue = this.props.issue;
+
+    if (assignment) {
+      var icon = function() {
+        if (issue) {
+          if (issue.state == 'open') {
+            return 'fa-circle-o';
+          } else {
+            return 'fa-check-circle';
+          };
+        } else {
+          return 'fa-question-circle';
+        }
+      }();
+
+      var popover = <BS.Popover title={this.props.homework.name}>
+        <table className="table">
+          <tr>
+            <th>State</th>
+            <td>{(issue ? issue.state : '??')}</td>
+          </tr>
+          <tr>
+            <th><i className="fa fa-code-fork" /></th>
+            <td>
+              <a href={"https://github.com/" + this.props.student.github + "/" + this.props.student.assignments_repo + "/issues/" + assignment.issue}>
+                #{assignment.issue}
+              </a>
+            </td>
+          </tr>
+        </table>
+      </BS.Popover>;
+
+      return <td className={"assignment " + (issue ? issue.state : 'unassigned')}>
+        <BS.OverlayTrigger placement='left' trigger='click' overlay={popover}>
+          <i className={"fa " + icon}/>
+        </BS.OverlayTrigger>
+      </td>
+    } else {
+      return <td className="assignment unassigned">
+        <i className="fa fa-circle-o" />
+      </td>
+    }
   }
 });
 
