@@ -39,9 +39,16 @@ body {
   overflow-y: auto;
 }
 
-table.table {
+table#students {
   th.assignment, td.assignment {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  td.assignment {
+
+    &.unassigned {
+      color: #ccc;
+    }
   }
 }
