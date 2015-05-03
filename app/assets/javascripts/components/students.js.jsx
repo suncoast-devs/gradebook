@@ -209,7 +209,11 @@ var HomeworkAssignmentItem = React.createClass({
           if (issue.state == 'open') {
             return 'fa-circle-o';
           } else {
-            return 'fa-check-circle';
+            // TODO:
+            // if (assignment is scored) {
+            //   return 'fa-check-circle';
+            // } else { ....
+            return 'fa-circle';
           };
         } else {
           return 'fa-question-circle';
