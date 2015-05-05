@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.0'
+ruby '2.2.2'
 
 gem 'rails', '4.2.1'
 gem 'puma'
@@ -20,6 +20,7 @@ gem 'omniauth-github'
 gem 'jbuilder', '~> 2.0'
 gem 'octokit'
 gem 'font-awesome-sass'
+gem 'paper_trail', '~> 4.0.0.beta'
 
 group :development, :test do
   gem 'byebug'

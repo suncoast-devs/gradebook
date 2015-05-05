@@ -54,6 +54,6 @@ class AssignmentsController < ApplicationController
     end
 
     def assignment_params
-      params[:assignment].permit(:homework_id)
+      params[:assignment].permit(:homework_id, :score)
     end
 end

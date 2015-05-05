@@ -234,10 +234,15 @@ var HomeworkAssignmentItem = React.createClass({
               </a>
             </td>
           </tr>
+          <tr>
+            <td colSpan="2">
+              <AssignmentScoreButtonGroup {...this.props} />
+            </td>
+          </tr>
         </table>
       </BS.Popover>;
 
-      return <td className={"assignment " + (issue ? issue.state : 'unassigned')}>
+      return <td className={" assignment score_" + assignment.score + ' ' + (issue ? issue.state : 'unassigned')}>
         <BS.OverlayTrigger placement='left' trigger='click' overlay={popover}>
           <i className={"fa " + icon}/>
         </BS.OverlayTrigger>
@@ -247,6 +252,57 @@ var HomeworkAssignmentItem = React.createClass({
         <i className="fa fa-circle-o" />
       </td>
     }
+  }
+});
+
+var AssignmentScoreButtonGroup = React.createClass({
+
+  getInitialState: function() {
+    return {
+      score: this.props.assignment.score
+    }
+  },
+
+  handleClick: function(assignmentScoreButton) {
+    $.ajax({
+      url: this.props.assignment.url,
+      dataType: 'json',
+      type: 'PATCH',
+      data: { assignment: { score: assignmentScoreButton.props.score } },
+      success: function(data) {
+        this.setState({score: assignmentScoreButton.props.score});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.assignment.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+
+  render: function() {
+    return <BS.ButtonToolbar>
+      <BS.ButtonGroup bsSize='small' className="assignment-score-buttons">
+        <AssignmentScoreButton {...this.props} onClick={this.handleClick} score={0} currentScore={this.state.score} />
+        <AssignmentScoreButton {...this.props} onClick={this.handleClick} score={1} currentScore={this.state.score} />
+        <AssignmentScoreButton {...this.props} onClick={this.handleClick} score={2} currentScore={this.state.score} />
+        <AssignmentScoreButton {...this.props} onClick={this.handleClick} score={3} currentScore={this.state.score} />
+        <AssignmentScoreButton {...this.props} onClick={this.handleClick} score={4} currentScore={this.state.score} />
+      </BS.ButtonGroup>
+    </BS.ButtonToolbar>;
+  }
+});
+
+var AssignmentScoreButton = React.createClass({
+
+  handleClick: function() {
+    this.props.onClick(this);
+  },
+
+  render: function() {
+    var style = ['default', 'danger', 'warning', 'info', 'primary'][this.props.score];
+    var isCurrent = this.props.score === this.props.currentScore;
+    return <BS.Button className={isCurrent ? 'current' : ''} bsStyle={style} active={isCurrent} onClick={this.handleClick}>
+      {this.props.score}
+    </BS.Button>;
   }
 });
 
