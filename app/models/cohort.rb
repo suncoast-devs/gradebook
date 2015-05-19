@@ -5,7 +5,7 @@ class Cohort < ActiveRecord::Base
   scope :current, -> { first } # TODO: Make this a flag
 
   def admins_include?(nickname)
-    client if user = User.first
+    client = if user = User.first
       Octokit::Client.new(:access_token => user.access_token)
     else
       Octokit
