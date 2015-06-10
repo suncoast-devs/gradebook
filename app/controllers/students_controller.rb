@@ -52,6 +52,6 @@ class StudentsController < ApplicationController
     end
 
     def student_params
-      params[:student].permit(:name, :github, :assignments_repo)
+      params[:student].permit(:name, :github, :assignments_repo, :is_active)
     end
 end
