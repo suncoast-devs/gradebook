@@ -3,4 +3,7 @@ class Homework < ActiveRecord::Base
   has_many :assignments
   has_many :students, :through => :assignments
 
+  def title
+    "#{name} - #{summary}"
+  end
 end

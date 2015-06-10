@@ -5,5 +5,4 @@ class Assignment < ActiveRecord::Base
 
   validates :homework, uniqueness: { :scope => :student }
   validates :issue, presence: true
-
 end

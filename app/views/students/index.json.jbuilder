@@ -1,5 +1,5 @@
 json.array!(@students) do |student|
-  json.extract! student, :id, :name, :github, :assignments_repo
+  json.extract! student, :id, :name, :github, :assignments_repo, :is_active
   json.url student_url(student, format: :json)
   json.assignments_url student_assignments_url(student, format: :json)
   json.issues_url issues_student_url(student, format: :json)

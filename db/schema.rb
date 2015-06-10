@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150505051411) do
+ActiveRecord::Schema.define(version: 20150609185236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,8 +48,9 @@ ActiveRecord::Schema.define(version: 20150505051411) do
     t.string   "name"
     t.string   "github"
     t.string   "assignments_repo"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "is_active",        default: true
   end
 
   add_index "students", ["cohort_id"], name: "index_students_on_cohort_id", using: :btree

@@ -45,6 +45,10 @@ table#students {
     padding-right: 0;
   }
 
+  tr.is_inactive {
+    opacity: 0.25
+  }
+
   td.assignment {
 
     &.unassigned {

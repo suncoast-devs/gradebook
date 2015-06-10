@@ -65,21 +65,25 @@ var StudentView = React.createClass({
 var StudentList = React.createClass({
 
   assignHomework: function(homework) {
-    this.props.students.forEach(function(student) {
-      $.ajax({
-        url: student.assignments_url,
-        dataType: 'json',
-        type: 'POST',
-        data: { assignment: { homework_id: homework.id } },
-        success: function(data) {
-          student.assignments.push(data);
-          this.forceUpdate();
-        }.bind(this),
-        error: function(xhr, status, err) {
-          console.error(student.assignments_url, status, err.toString());
-        }.bind(this)
-      });
-    }.bind(this));
+    if (window.confirm("Assign Homework?")) {
+      this.props.students.forEach(function(student) {
+        if (student.is_active) {
+          $.ajax({
+            url: student.assignments_url,
+            dataType: 'json',
+            type: 'POST',
+            data: { assignment: { homework_id: homework.id } },
+            success: function(data) {
+              student.assignments.push(data);
+              this.forceUpdate();
+            }.bind(this),
+            error: function(xhr, status, err) {
+              console.error(student.assignments_url, status, err.toString());
+            }.bind(this)
+          });
+        };
+      }.bind(this));
+    };
   },
 
   render: function() {
@@ -109,7 +113,7 @@ var StudentList = React.createClass({
 var HomeworkHeaderItem = React.createClass({
 
   render: function() {
-    var tip = <BS.Tooltip>{this.props.data.name}</BS.Tooltip>;
+    var tip = <BS.Tooltip>{this.props.data.title}</BS.Tooltip>;
     return <th className="assignment">
       <BS.OverlayTrigger placement='top' overlay={tip}>
         <i className="fa fa-circle" onClick={this.props.assignHomework}/>
@@ -183,7 +187,7 @@ var StudentListItem = React.createClass({
       return <HomeworkAssignmentItem key={homework.id} student={student} homework={homework} assignment={assignment} issue={issue} />;
     }.bind(this));
 
-    return <tr>
+    return <tr className={student.is_active ? '' : 'is_inactive'}>
       <td>
         <BS.ModalTrigger modal={<EditStudentModal {...this.props} onFormSubmit={this.handleUpdate} />}>
           <a href="#">{student.name}</a>
@@ -313,6 +317,7 @@ var EditStudentModal = React.createClass({
       name: this.props.data.name,
       github: this.props.data.github,
       assignments_repo: this.props.data.assignments_repo,
+      is_active: this.props.data.is_active
     }
   },
 
@@ -327,6 +332,7 @@ var EditStudentModal = React.createClass({
       name: this.state.name,
       github: this.state.github,
       assignments_repo: this.state.assignments_repo,
+      is_active: this.state.is_active,
     }})
 
     this.props.onRequestHide();
@@ -353,7 +359,8 @@ var EditStudentModal = React.createClass({
     this.setState({
       name: this.refs.name.getValue(),
       github: this.refs.github.getValue(),
-      assignments_repo: this.refs.assignments_repo.getValue()
+      assignments_repo: this.refs.assignments_repo.getValue(),
+      is_active: this.refs.is_active.getChecked()
     })
   },
 
@@ -366,6 +373,7 @@ var EditStudentModal = React.createClass({
           name: data.name,
           github: data.github,
           assignments_repo: data.assignments_repo,
+          is_active: data.is_active
         });
       }.bind(this),
       error: function(xhr, status, err) {
@@ -386,6 +394,9 @@ var EditStudentModal = React.createClass({
           </div>
           <div className="form-group">
             <BS.Input label="Assignments Repo" type="text" ref="assignments_repo" value={this.state.assignments_repo} onChange={this.handleChange} placeholder="repo_name"/>
+          </div>
+          <div className="form-group">
+            <BS.Input label="Is Active" type="checkbox" ref="is_active" checked={this.state.is_active} onChange={this.handleChange}/>
           </div>
         </form>
       </div>

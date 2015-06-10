@@ -14,23 +14,38 @@ class AssignmentsController < ApplicationController
 
   # POST /students/1/assignments.json
   def create
-    @assignment = @student.assignments.new(assignment_params)
+    if @student.is_active
+      client = Octokit::Client.new(:access_token => current_user.access_token)
+      @assignment = @student.assignments.find_or_initialize_by(assignment_params)
+      if @assignment.new_record?
+        issue = client.create_issue("#{@student.github}/#{@student.assignments_repo}",
+          @assignment.homework.title, @assignment.homework.body, :assignee => @student.github)
+        @assignment.issue = issue.number
+      else
+        client.update_issue("#{@student.github}/#{@student.assignments_repo}",
+          @assignment.issue, @assignment.homework.title,
+          @assignment.homework.body, :assignee => @student.github)
+      end
 
-    client = Octokit::Client.new(:access_token => current_user.access_token)
-    issue = client.create_issue("#{@student.github}/#{@student.assignments_repo}",
-      @assignment.homework.name, @assignment.homework.body, :assignee => @student.github)
-    @assignment.issue = issue.number
-
-    if @assignment.save
-      render :show, status: :created, location: [@student, @assignment]
+      if @assignment.save
+        render :show, status: :created, location: [@student, @assignment]
+      else
+        render json: @assignment.errors, status: :unprocessable_entity
+      end
     else
-      render json: @assignment.errors, status: :unprocessable_entity
+      head :ok
     end
   end
 
   # PATCH /students/1/assignments/1.json
   def update
     if @assignment.update(assignment_params)
+      if @assignment.previous_changes.include?(:score) && @assignment.score >= 3
+        gif = JSON.load(Net::HTTP.get(URI("http://api.giphy.com/v1/stickers/random?api_key=dc6zaTOxFJmzC&tag=dancing&rating=pg")))
+        client = Octokit::Client.new(:access_token => current_user.access_token)
+        client.add_comment("#{@student.github}/#{@student.assignments_repo}",
+          @assignment.issue, "![Awesome Work!](#{gif["data"]["fixed_width_downsampled_url"]})")
+      end
       render :show, status: :ok, location: [@student, @assignment]
     else
       render json: @assignment.errors, status: :unprocessable_entity
