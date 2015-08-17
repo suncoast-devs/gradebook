@@ -4,7 +4,7 @@ class StudentsController < ApplicationController
 
   # GET /students.json
   def index
-    @students = Cohort.current.students.order(:name)
+    @students = current_user.cohort.students.order(:name)
   end
 
   # GET /students/1.json
@@ -13,7 +13,7 @@ class StudentsController < ApplicationController
 
   # POST /students.json
   def create
-    @student = Cohort.current.students.new(student_params)
+    @student = current_user.cohort.students.new(student_params)
 
     if @student.save
       render :show, status: :created, location: @student
@@ -48,7 +48,7 @@ class StudentsController < ApplicationController
   private
 
     def find_student
-      @student = Cohort.current.students.find(params[:id])
+      @student = current_user.cohort.students.find(params[:id])
     end
 
     def student_params

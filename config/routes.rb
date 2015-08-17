@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   root 'home#index'
 
   get "/auth/:provider/callback" => "sessions#create"
@@ -10,4 +11,6 @@ Rails.application.routes.draw do
     get :issues, :on => :member
     resources :assignments, :only => [:index, :show, :create, :update, :destroy]
   end
+
+  resource :user, only: [:show, :update]
 end

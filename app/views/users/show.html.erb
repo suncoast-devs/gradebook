@@ -1,0 +1,9 @@
+<div class="page-header">
+  <h1>Profile</h1>
+</div>
+
+<%= simple_form_for(current_user) do |f| %>
+  <%= f.error_notification %>
+  <%= f.input :cohort_id, collection: Cohort.active %>
+  <%= f.button :submit %>
+<% end %>

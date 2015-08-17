@@ -23,7 +23,7 @@
           <li>
             <span class="navbar-text">
               <img class="avatar" height="20" src="https://avatars1.githubusercontent.com/u/<%= current_user.uid %>?v=3&amp;s=40" width="20">
-              <b><%= current_user.nickname %></b>
+              <b><%= link_to current_user.nickname, user_path %></b>
             </span>
           </li>
           <li>

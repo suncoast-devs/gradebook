@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150609185236) do
+ActiveRecord::Schema.define(version: 20150817194651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20150609185236) do
     t.string   "org"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "is_active"
   end
 
   create_table "homework", force: :cascade do |t|
@@ -42,6 +43,16 @@ ActiveRecord::Schema.define(version: 20150609185236) do
     t.datetime "updated_at", null: false
     t.string   "summary"
   end
+
+  create_table "homeworks", force: :cascade do |t|
+    t.string   "name"
+    t.text     "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "cohort_id"
+  end
+
+  add_index "homeworks", ["cohort_id"], name: "index_homeworks_on_cohort_id", using: :btree
 
   create_table "students", force: :cascade do |t|
     t.integer  "cohort_id"
@@ -64,7 +75,10 @@ ActiveRecord::Schema.define(version: 20150609185236) do
     t.string   "access_token"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "cohort_id"
   end
+
+  add_index "users", ["cohort_id"], name: "index_users_on_cohort_id", using: :btree
 
   create_table "versions", force: :cascade do |t|
     t.string   "item_type",  null: false
@@ -79,5 +93,7 @@ ActiveRecord::Schema.define(version: 20150609185236) do
 
   add_foreign_key "assignments", "homework"
   add_foreign_key "assignments", "students"
+  add_foreign_key "homeworks", "cohorts"
   add_foreign_key "students", "cohorts"
+  add_foreign_key "users", "cohorts"
 end

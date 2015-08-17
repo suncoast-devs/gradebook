@@ -61,7 +61,7 @@ class AssignmentsController < ApplicationController
   private
 
     def find_student
-      @student = Cohort.current.students.find(params[:student_id])
+      @student = current_user.cohort.students.find(params[:student_id])
     end
 
     def find_assignment

@@ -70,6 +70,6 @@ class CohortsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cohort_params
-      params[:cohort].permit(:name, :org)
+      params[:cohort].permit(:name, :org, :is_active)
     end
 end

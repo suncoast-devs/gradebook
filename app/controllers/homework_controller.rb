@@ -1,10 +1,11 @@
 class HomeworkController < ApplicationController
   before_action :require_authentication
+  before_action :find_cohort
   before_action :find_homework, :only => [:show, :update, :destroy]
 
   # GET /homework.json
   def index
-    @homework = Homework.order(:name)
+    @homework = @cohort.homeworks.order(:name)
   end
 
   # GET /homework/1.json
@@ -13,7 +14,7 @@ class HomeworkController < ApplicationController
 
   # POST /homework.json
   def create
-    @homework = Homework.new(homework_params)
+    @homework = @cohort.homeworks.new(homework_params)
 
     if @homework.save
       render :show, status: :created, location: @homework
@@ -39,8 +40,12 @@ class HomeworkController < ApplicationController
 
   private
 
+    def find_cohort
+      @cohort = current_user.cohort
+    end
+
     def find_homework
-      @homework = Homework.find(params[:id])
+      @homework = @cohort.homeworks.find(params[:id])
     end
 
     def homework_params
