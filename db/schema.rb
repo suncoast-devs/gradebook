@@ -42,17 +42,10 @@ ActiveRecord::Schema.define(version: 20150817194651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "summary"
-  end
-
-  create_table "homeworks", force: :cascade do |t|
-    t.string   "name"
-    t.text     "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer  "cohort_id"
   end
 
-  add_index "homeworks", ["cohort_id"], name: "index_homeworks_on_cohort_id", using: :btree
+  add_index "homework", ["cohort_id"], name: "index_homework_on_cohort_id", using: :btree
 
   create_table "students", force: :cascade do |t|
     t.integer  "cohort_id"
