@@ -14,7 +14,6 @@ class StudentsController < ApplicationController
   # POST /students.json
   def create
     @student = current_user.cohort.students.new(student_params)
-
     if @student.save
       render :show, status: :created, location: @student
     else
