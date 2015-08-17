@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.2.2'
 
-gem 'rails', '4.2.1'
+gem 'rails', '~> 4.2'
 gem 'puma'
 gem 'pg'
 
@@ -31,4 +31,3 @@ end
 
 gem 'rails_12factor', group: :production
 gem 'newrelic_rpm'
-
