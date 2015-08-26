@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 20150817194651) do
 
   add_foreign_key "assignments", "homework"
   add_foreign_key "assignments", "students"
-  add_foreign_key "homeworks", "cohorts"
+  add_foreign_key "homework", "cohorts"
   add_foreign_key "students", "cohorts"
   add_foreign_key "users", "cohorts"
 end
