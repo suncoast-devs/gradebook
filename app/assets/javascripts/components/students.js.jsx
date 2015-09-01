@@ -194,7 +194,7 @@ var StudentListItem = React.createClass({
         </BS.ModalTrigger>
       </td>
       <td>
-        <a href={"https://github.com/" + student.github}>@{student.github}</a>
+        <a target="_blank" href={"https://github.com/" + student.github}>@{student.github}</a>
       </td>
       {assignmentNodes}
     </tr>;
@@ -233,7 +233,7 @@ var HomeworkAssignmentItem = React.createClass({
           <tr>
             <th><i className="fa fa-code-fork" /></th>
             <td>
-              <a href={"https://github.com/" + this.props.student.github + "/" + this.props.student.assignments_repo + "/issues/" + assignment.issue}>
+              <a target="_blank" href={"https://github.com/" + this.props.student.github + "/" + this.props.student.assignments_repo + "/issues/" + assignment.issue}>
                 #{assignment.issue}
               </a>
             </td>
