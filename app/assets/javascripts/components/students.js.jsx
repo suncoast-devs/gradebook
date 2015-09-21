@@ -224,7 +224,7 @@ var HomeworkAssignmentItem = React.createClass({
         }
       }();
 
-      var popover = <BS.Popover title={this.props.homework.name}>
+      var popover = <BS.Popover title={this.props.homework.title}>
         <table className="table">
           <tr>
             <th>State</th>
