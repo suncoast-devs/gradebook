@@ -9,6 +9,7 @@ class StudentsController < ApplicationController
 
   # GET /students/1.json
   def show
+    @student = find_student()
   end
 
   # POST /students.json
