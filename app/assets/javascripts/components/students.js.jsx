@@ -428,9 +428,6 @@ var NewStudentModal = React.createClass({
       assignments_repo: this.refs.assignments_repo.getValue(),
     }})
 
-    this.refs.name.getDOMNode().value = '';
-    this.refs.github.getDOMNode().value = '';
-    this.refs.assignments_repo.getDOMNode().value = 'assignments';
     this.props.onRequestHide();
   },
 
