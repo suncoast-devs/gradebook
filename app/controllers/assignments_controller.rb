@@ -43,17 +43,11 @@ class AssignmentsController < ApplicationController
       if @assignment.previous_changes.include?(:score)
         gif = JSON.load(Net::HTTP.get(URI("https://gifs.suncoast.io/gifs/#{@assignment.score}")))
         message = <<-EOF.strip_heredoc
-          Your homework was marked: *#{@assignment.score_description}*"
+          Your homework was marked: **#{@assignment.score_description}**
 
           ![#{gif["caption"]}](#{gif["image"]})
-
-          > #{gif["caption"]}
-
-          <em style="font-size:0.5em;opacity:0.5">
-            Contributed by <strong>
-              <a href="#{gif["url"]}">#{gif["contributor"]}</a>
-            </<strong>
-          </em>
+          > &ldquo;#{gif["caption"]}&rdquo;
+          __&mdash **[gif["contributor"]](#{gif["url"]})**__
         EOF
 
         client = Octokit::Client.new(:access_token => current_user.access_token)
