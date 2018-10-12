@@ -41,12 +41,20 @@ class AssignmentsController < ApplicationController
   def update
     if @assignment.update(assignment_params)
       if @assignment.previous_changes.include?(:score)
-        message = "Your homework is: #{@assignment.score_description}"
+        gif = JSON.load(Net::HTTP.get(URI("https://gifs.suncoast.io/gifs/#{@assignment.score}")))
+        message = <<~EOF
+          Your homework was marked: *#{@assignment.score_description}*"
 
-        if @assignment.score >= 3
-          gif = JSON.load(Net::HTTP.get(URI("http://api.giphy.com/v1/stickers/random?api_key=dc6zaTOxFJmzC&tag=dancing&rating=pg")))
-          message += "\n\n" + %{![Awesome Work!](#{gif["data"]["fixed_width_downsampled_url"]})}
-        end
+          ![#{gif["caption"]}](#{gif["image"]})
+
+          > #{gif["caption"]}
+
+          <em style="font-size:0.5em;opacity:0.5">
+            Contributed by <strong>
+              <a href="#{gif["url"]}">#{gif["contributor"]}</a>
+            </<strong>
+          </em>
+        EOF
 
         client = Octokit::Client.new(:access_token => current_user.access_token)
         client.add_comment("#{@student.github}/#{@student.assignments_repo}", @assignment.issue, message)
