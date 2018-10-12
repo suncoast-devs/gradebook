@@ -42,7 +42,7 @@ class AssignmentsController < ApplicationController
     if @assignment.update(assignment_params)
       if @assignment.previous_changes.include?(:score)
         gif = JSON.load(Net::HTTP.get(URI("https://gifs.suncoast.io/gifs/#{@assignment.score}")))
-        message = <<~EOF
+        message = <<-EOF.strip_heredoc
           Your homework was marked: *#{@assignment.score_description}*"
 
           ![#{gif["caption"]}](#{gif["image"]})
