@@ -47,7 +47,7 @@ class AssignmentsController < ApplicationController
 
           ![#{gif["caption"]}](#{gif["image"]})
           > &ldquo;#{gif["caption"]}&rdquo;
-          __&mdash **[#{gif["contributor"]}](#{gif["url"]})**__
+          __&mdash; via **[#{gif["contributor"]}](#{gif["url"]})**__
         EOF
 
         client = Octokit::Client.new(:access_token => current_user.access_token)
