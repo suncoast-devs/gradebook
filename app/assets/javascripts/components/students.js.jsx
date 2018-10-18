@@ -101,6 +101,7 @@ var StudentList = React.createClass({
           <th>Name</th>
           <th><i className="fa fa-lg fa-github-alt" /></th>
           {homeworkHeaderNodes}
+          <th>% Complete</th>
         </tr>
       </thead>
       <tbody>
@@ -164,6 +165,7 @@ var StudentListItem = React.createClass({
 
   render: function() {
     var student = this.props.data;
+    var closedIssueCount = 0;
 
     var assignmentNodes = this.props.homework.map(function(homework) {
       var assignment = function() {
@@ -184,6 +186,10 @@ var StudentListItem = React.createClass({
         }.bind(this)();
       };
 
+      if (issue.state !== 'open') {
+        closedIssueCount++;
+      }
+
       return <HomeworkAssignmentItem key={homework.id} student={student} homework={homework} assignment={assignment} issue={issue} />;
     }.bind(this));
 
@@ -197,6 +203,9 @@ var StudentListItem = React.createClass({
         <a target="_blank" href={"https://github.com/" + student.github}>@{student.github}</a>
       </td>
       {assignmentNodes}
+      <td>
+        {Math.floor(100 * closedIssueCount / this.props.homework.length)}
+      </td>
     </tr>;
   }
 });
