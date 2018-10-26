@@ -13,10 +13,13 @@ var StudentProgressReport = React.createClass({
     },
   
     fetchData: function () {
-      fetch(`/${this.props.student.id}/issues.json`)
+      fetch(`/students/${this.props.student.id}/assignments.json`)
         .then(resp => resp.json())
         .then(json => {
           console.log(json)
+          this.setState({
+            allAssignments:json
+          })
         })
     },
   
