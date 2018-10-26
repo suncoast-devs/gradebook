@@ -65,3 +65,9 @@ table#students {
 .assignment-score-buttons .current {
   color: #333;
 }
+
+
+.feedback-form{
+  display: flex;
+  flex-direction: column;
+}

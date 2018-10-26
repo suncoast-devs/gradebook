@@ -69,19 +69,54 @@ var SelectAssignments = React.createClass({
 var ProgressReport = React.createClass({
   getInitialState: function () {
     return {
-     
+      studentAssignments: [],
+      assignmentIds: this.props.assignments.map(m => m.id)
     };
+  },
+  fetchData: function () {
+    fetch(`/students/${this.props.student.id}/assignments.json`)
+      .then(resp => resp.json())
+      .then(json => {
+        console.log(json)
+        this.setState({
+          studentAssignments: json.filter(f => this.state.assignmentIds.includes(f.homework.id))
+        })
+      })
+
+  },
+
+  componentDidMount: function () {
+    this.fetchData();
   },
 
 
+  createReport:function(){
+
+  },
+
+  handleChange:function(e){
+    this.setState({
+      [e.target.name]:e.target.value
+    })
+  },
+
   render: function () {
     return (<section>
-     {this.props.student.name}
-     <ul>
-       {this.props.assignments.map(ass => {
-         return <li>{ass.name}</li>
-       })}
-     </ul>
+      {this.props.student.name}
+      <ul>
+        {this.state.studentAssignments.map(ass => {
+          return <li>{ass.homework.name} | {ass.score}</li>
+        })}
+      </ul>
+      <section className="feedback-form">
+        <label>What is {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} doing well?</label>
+        <textarea placeholder="Great CSS, good job creating re-usable code, etc..." onChange={this.handleChange} name="success"></textarea>
+        <label>Where can {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} improve?</label>
+        <textarea placeholder="Work on problem solving, repeat old homeworks, etc...." onChange={this.handleChange} name="improvement"></textarea>
+        <label>Attendance:</label>
+        <textarea onChange={this.handleChange} name="attendance">None</textarea>
+        <button onClick={this.createReport} >create</button>
+      </section>
     </section>)
   }
 })
@@ -124,7 +159,7 @@ var StudentProgressReport = React.createClass({
       currentStep: 2,
       currentStudent: {
         next: this.state.currentStudent.next + 1,
-        data: this.state.students[this.state.currentStudent.next], 
+        data: this.state.students[this.state.currentStudent.next],
       },
       reportAssignments: selectedHomework
     })
@@ -136,12 +171,12 @@ var StudentProgressReport = React.createClass({
     // display good/bad box
   },
 
-  getCurrentPage: function(){
+  getCurrentPage: function () {
     switch (this.state.currentStep) {
       case 1:
-       return <SelectAssignments homework={this.state.homework} startProgressReports={this.startProgressReports} />
-       case 2: 
-        return <ProgressReport student={this.state.currentStudent.data} assignments={this.state.reportAssignments}/>
+        return <SelectAssignments homework={this.state.homework} startProgressReports={this.startProgressReports} />
+      case 2:
+        return <ProgressReport student={this.state.currentStudent.data} assignments={this.state.reportAssignments} />
       default:
         return <SelectAssignments homework={this.state.homework} startProgressReports={this.startProgressReports} />
 
