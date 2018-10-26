@@ -9,7 +9,8 @@ class StudentsController < ApplicationController
 
   # GET /students/1.json
   def show
-    @student = find_student()
+   find_student()
+   @cohort = current_user.cohort
   end
 
   # POST /students.json
@@ -48,7 +49,7 @@ class StudentsController < ApplicationController
   private
 
     def find_student
-      @student = current_user.cohort.students.find(params[:id])
+      @student = current_user.cohort.students.joins(:cohort).find(params[:id])
     end
 
     def student_params

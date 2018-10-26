@@ -18,14 +18,12 @@ ActiveRecord::Schema.define(version: 20150817194651) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer  "student_id"
-    t.integer  "homework_id"
     t.integer  "issue"
-    t.integer  "score",       default: 0, null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "score",      default: 0, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
-  add_index "assignments", ["homework_id"], name: "index_assignments_on_homework_id", using: :btree
   add_index "assignments", ["student_id"], name: "index_assignments_on_student_id", using: :btree
 
   create_table "cohorts", force: :cascade do |t|
@@ -84,7 +82,6 @@ ActiveRecord::Schema.define(version: 20150817194651) do
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
-  add_foreign_key "assignments", "homework"
   add_foreign_key "assignments", "students"
   add_foreign_key "homework", "cohorts"
   add_foreign_key "students", "cohorts"

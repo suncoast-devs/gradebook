@@ -13,7 +13,11 @@ var StudentProgressReport = React.createClass({
     },
   
     fetchData: function () {
-     
+      fetch(`/${this.props.student.id}/issues.json`)
+        .then(resp => resp.json())
+        .then(json => {
+          console.log(json)
+        })
     },
   
     handleCreate: function (data) {
@@ -25,9 +29,12 @@ var StudentProgressReport = React.createClass({
     },
   
     render: function () {
-      console.log(this.props)
+      console.log({props:this.props})
       return <div>
-          Hello world
+            <section className="student-profile">
+                <header className="student-name">{this.props.student.name}</header>
+                <header className="cohort-name">{this.props.cohort.name}</header>
+            </section>
       </div>;
     }
   });
