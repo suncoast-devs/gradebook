@@ -70,7 +70,8 @@ var ProgressReport = React.createClass({
   getInitialState: function () {
     return {
       studentAssignments: [],
-      assignmentIds: this.props.assignments.map(m => m.id)
+      assignmentIds: this.props.assignments.map(m => m.id),
+      showForm: true
     };
   },
   fetchData: function () {
@@ -90,25 +91,31 @@ var ProgressReport = React.createClass({
   },
 
 
-  createReport:function(){
-
+  createReport: function () {
+    this.setState({
+      showForm: false
+    })
   },
 
-  handleChange:function(e){
+  handleChange: function (e) {
     this.setState({
-      [e.target.name]:e.target.value
+      [e.target.name]: e.target.value
     })
+  },
+
+  goToNextStudent: function () {
+    this.setState({
+      showForm: true
+    }, () => this.props.startNextProgressReport())
+
   },
 
   render: function () {
     return (<section>
-      {this.props.student.name}
-      <ul>
-        {this.state.studentAssignments.map(ass => {
-          return <li>{ass.homework.name} | {ass.score}</li>
-        })}
-      </ul>
-      <section className="feedback-form">
+      <h2>{this.props.student.name}</h2>
+      <h3>{this.props.cohort}</h3>
+      <h4>Report Date: {new Date().getMonth() + 1}/{new Date().getDate()}/{new Date().getFullYear()}</h4>
+      {this.state.showForm && <section className="feedback-form">
         <label>What is {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} doing well?</label>
         <textarea placeholder="Great CSS, good job creating re-usable code, etc..." onChange={this.handleChange} name="success"></textarea>
         <label>Where can {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} improve?</label>
@@ -116,7 +123,21 @@ var ProgressReport = React.createClass({
         <label>Attendance:</label>
         <textarea onChange={this.handleChange} name="attendance">None</textarea>
         <button onClick={this.createReport} >create</button>
-      </section>
+      </section>}
+      <ul>
+        {this.state.studentAssignments.map(ass => {
+          return <li>{ass.homework.name} | {ass.score}</li>
+        })}
+      </ul>
+      {!this.state.showForm && <section className="feedback-form">
+        <label>What is {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} doing well?</label>
+        <section>{this.state.success}</section>
+        <label>Where can {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} improve?</label>
+        <section >{this.state.improvement}</section>
+        <label>Attendance:</label>
+        <pre onChange={this.handleChange} name="attendance">{this.state.attendance}</pre>
+        <button className="noprint" onClick={this.goToNextStudent}>Next</button>
+      </section>}
     </section>)
   }
 })
@@ -131,7 +152,7 @@ var StudentProgressReport = React.createClass({
       students: [],
       reportAssignments: [],
       currentStudent: { next: 0, data: {} },
-      currentStep: 1 // 1 assignments, 2 add student page, 3 report to print
+      currentStep: 1 // 1 assignments, 2 Create reports, 3 completes
     };
   },
 
@@ -166,9 +187,19 @@ var StudentProgressReport = React.createClass({
   },
 
   startNextProgressReport: function () {
-    // select "next" student
-    // get students assignments. 
-    // display good/bad box
+    if (this.state.currentStudent.next >= this.state.students.length) {
+      this.setState({
+        currentStep: 3
+      })
+    } else {
+      this.setState({
+        currentStep: 2,
+        currentStudent: {
+          next: this.state.currentStudent.next + 1,
+          data: this.state.students[this.state.currentStudent.next],
+        }
+      })
+    }
   },
 
   getCurrentPage: function () {
@@ -176,7 +207,9 @@ var StudentProgressReport = React.createClass({
       case 1:
         return <SelectAssignments homework={this.state.homework} startProgressReports={this.startProgressReports} />
       case 2:
-        return <ProgressReport student={this.state.currentStudent.data} assignments={this.state.reportAssignments} />
+        return <ProgressReport startNextProgressReport={this.startNextProgressReport} student={this.state.currentStudent.data} cohort={this.props.cohort.name} assignments={this.state.reportAssignments} />
+      case 3:
+        return <div>done</div>
       default:
         return <SelectAssignments homework={this.state.homework} startProgressReports={this.startProgressReports} />
 
