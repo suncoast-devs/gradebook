@@ -66,6 +66,26 @@ var SelectAssignments = React.createClass({
 
 })
 
+var ProgressReport = React.createClass({
+  getInitialState: function () {
+    return {
+     
+    };
+  },
+
+
+  render: function () {
+    return (<section>
+     {this.props.student.name}
+     <ul>
+       {this.props.assignments.map(ass => {
+         return <li>{ass.name}</li>
+       })}
+     </ul>
+    </section>)
+  }
+})
+
 
 var StudentProgressReport = React.createClass({
 
@@ -74,7 +94,7 @@ var StudentProgressReport = React.createClass({
       homework: [],
       selectedHomework: [],
       students: [],
-
+      reportAssignments: [],
       currentStudent: { next: 0, data: {} },
       currentStep: 1 // 1 assignments, 2 add student page, 3 report to print
     };
@@ -99,12 +119,14 @@ var StudentProgressReport = React.createClass({
   },
 
   startProgressReports: function (selectedHomework) {
+    console.log("got", selectedHomework)
     this.setState({
       currentStep: 2,
       currentStudent: {
         next: this.state.currentStudent.next + 1,
-        data: this.state.students[this.state.currentStudent.next]
-      }
+        data: this.state.students[this.state.currentStudent.next], 
+      },
+      reportAssignments: selectedHomework
     })
   },
 
@@ -119,7 +141,7 @@ var StudentProgressReport = React.createClass({
       case 1:
        return <SelectAssignments homework={this.state.homework} startProgressReports={this.startProgressReports} />
        case 2: 
-        return <div>{this.state.currentStudent.data.name}</div>
+        return <ProgressReport student={this.state.currentStudent.data} assignments={this.state.reportAssignments}/>
       default:
         return <SelectAssignments homework={this.state.homework} startProgressReports={this.startProgressReports} />
 
