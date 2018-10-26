@@ -210,9 +210,6 @@ var NewHomeworkModal = React.createClass({
       body: this.refs.body.getValue()
     }})
 
-    this.refs.name.getDOMNode().value = '';
-    this.refs.summary.getDOMNode().value = '';
-    this.refs.body.getDOMNode().value = '';
     this.props.onRequestHide();
   },
 

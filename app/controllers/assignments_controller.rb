@@ -40,12 +40,20 @@ class AssignmentsController < ApplicationController
   # PATCH /students/1/assignments/1.json
   def update
     if @assignment.update(assignment_params)
-      if @assignment.previous_changes.include?(:score) && @assignment.score >= 3
-        gif = JSON.load(Net::HTTP.get(URI("http://api.giphy.com/v1/stickers/random?api_key=dc6zaTOxFJmzC&tag=dancing&rating=pg")))
+      if @assignment.previous_changes.include?(:score)
+        gif = JSON.load(Net::HTTP.get(URI("https://gifs.suncoast.io/gifs/#{@assignment.score}")))
+        message = <<-EOF.strip_heredoc
+          Your homework was marked: **#{@assignment.score_description}**
+
+          ![#{gif["caption"]}](#{gif["image"]})
+          > &ldquo;#{gif["caption"]}&rdquo;
+          __&mdash; via **[#{gif["contributor"]}](#{gif["url"]})**__
+        EOF
+
         client = Octokit::Client.new(:access_token => current_user.access_token)
-        client.add_comment("#{@student.github}/#{@student.assignments_repo}",
-          @assignment.issue, "![Awesome Work!](#{gif["data"]["fixed_width_downsampled_url"]})")
+        client.add_comment("#{@student.github}/#{@student.assignments_repo}", @assignment.issue, message)
       end
+
       render :show, status: :ok, location: [@student, @assignment]
     else
       render json: @assignment.errors, status: :unprocessable_entity
