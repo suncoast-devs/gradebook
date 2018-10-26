@@ -102,6 +102,7 @@ var StudentList = React.createClass({
           <td>progress report</td>
           <th><i className="fa fa-lg fa-github-alt" /></th>
           {homeworkHeaderNodes}
+          <th>% Complete</th>
         </tr>
       </thead>
       <tbody>
@@ -165,6 +166,7 @@ var StudentListItem = React.createClass({
 
   render: function() {
     var student = this.props.data;
+    var closedIssueCount = 0;
 
     var assignmentNodes = this.props.homework.map(function(homework) {
       var assignment = function() {
@@ -185,6 +187,10 @@ var StudentListItem = React.createClass({
         }.bind(this)();
       };
 
+      if (issue.state !== 'open') {
+        closedIssueCount++;
+      }
+
       return <HomeworkAssignmentItem key={homework.id} student={student} homework={homework} assignment={assignment} issue={issue} />;
     }.bind(this));
 
@@ -201,6 +207,9 @@ var StudentListItem = React.createClass({
         <a target="_blank" href={"https://github.com/" + student.github}>@{student.github}</a>
       </td>
       {assignmentNodes}
+      <td>
+        {Math.floor(100 * closedIssueCount / this.props.homework.length)}
+      </td>
     </tr>;
   }
 });
@@ -228,7 +237,7 @@ var HomeworkAssignmentItem = React.createClass({
         }
       }();
 
-      var popover = <BS.Popover title={this.props.homework.name}>
+      var popover = <BS.Popover title={this.props.homework.title}>
         <table className="table">
           <tr>
             <th>State</th>
@@ -432,9 +441,6 @@ var NewStudentModal = React.createClass({
       assignments_repo: this.refs.assignments_repo.getValue(),
     }})
 
-    this.refs.name.getDOMNode().value = '';
-    this.refs.github.getDOMNode().value = '';
-    this.refs.assignments_repo.getDOMNode().value = 'assignments';
     this.props.onRequestHide();
   },
 
