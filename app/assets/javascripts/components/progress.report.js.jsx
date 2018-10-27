@@ -71,7 +71,8 @@ var ProgressReport = React.createClass({
     return {
       studentAssignments: [],
       assignmentIds: this.props.assignments.map(m => m.id),
-      showForm: true
+      showForm: true,
+      attendance: "No Attendance Issues"
     };
   },
   fetchData: function () {
@@ -112,9 +113,18 @@ var ProgressReport = React.createClass({
 
   render: function () {
     return (<section>
-      <h2>{this.props.student.name}</h2>
-      <h3>{this.props.cohort}</h3>
-      <h4>Report Date: {new Date().getMonth() + 1}/{new Date().getDate()}/{new Date().getFullYear()}</h4>
+      <header className="report-title">
+        <h1> <img src="/assets/logo-7e1718be455ad960f928d84c77eba86849faf744deb2c6e2d2b63f7fcb0d32b4.png" height="64px" width="64px"/>Progress Report</h1>
+      </header>
+      <section className="report-header">
+        <header className="left">
+          <h3 className="student-name"><i className="fa fa-user" />{this.props.student.name}</h3>
+          <h3><i className="fa fa-calendar" />{new Date().getMonth() + 1}/{new Date().getDate()}/{new Date().getFullYear()}</h3>
+          <h3 className="cohort"><i className="fa fa-users" />{this.props.cohort}</h3>
+        </header>
+        {/* <header className="right">
+        </header> */}
+      </section>
       {this.state.showForm && <section className="feedback-form">
         <label>What is {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} doing well?</label>
         <textarea placeholder="Great CSS, good job creating re-usable code, etc..." onChange={this.handleChange} name="success"></textarea>
@@ -167,11 +177,12 @@ var StudentProgressReport = React.createClass({
       })
     fetch('/students.json')
       .then(resp => resp.json())
-      .then(json => this.setState({ students: json }))
+      .then(json => this.setState({ students: json },  this.startNextProgressReport))
   },
 
   componentDidMount: function () {
     this.fetchData();
+   
   },
 
   startProgressReports: function (selectedHomework) {

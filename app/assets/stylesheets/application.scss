@@ -93,3 +93,38 @@ table#students {
   display: flex;
   flex-direction: column;
 }
+
+.report-header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .left{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    width: 100%;
+    h3,h4{
+      margin:0;
+      padding: 0;
+    }
+  }
+  .right{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .fa{
+    margin-right:0.5em;
+  }
+}
+
+.report-title{
+  display: flex;
+  justify-content: center;
+  text-decoration: underline;
+  font-weight: 300;
+  img{
+    margin-right: 0.5em;
+  }
+}
