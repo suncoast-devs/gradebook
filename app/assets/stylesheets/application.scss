@@ -98,6 +98,7 @@ table#students {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 1em;
   .left{
     display: flex;
     justify-content: space-around;
@@ -126,5 +127,26 @@ table#students {
   font-weight: 300;
   img{
     margin-right: 0.5em;
+  }
+}
+
+.feedback-report,
+.report-body{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-evenly;
+  ul{
+    flex-grow:1
+  }
+  .feedback-form{
+    flex-grow: 1;
+  }
+}
+
+.feedback-report{
+  max-height: 40%;
+  section{
+    margin-bottom:2.5em;
   }
 }

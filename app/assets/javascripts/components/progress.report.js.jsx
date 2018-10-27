@@ -10,7 +10,6 @@ var SelectAssignments = React.createClass({
     };
   },
 
-
   updateSelectedList: function (e) {
     console.log({ e: e.target })
     if (e.target.checked) {
@@ -84,7 +83,6 @@ var ProgressReport = React.createClass({
           studentAssignments: json.filter(f => this.state.assignmentIds.includes(f.homework.id))
         })
       })
-
   },
 
   componentDidMount: function () {
@@ -114,7 +112,7 @@ var ProgressReport = React.createClass({
   render: function () {
     return (<section>
       <header className="report-title">
-        <h1> <img src="/assets/logo-7e1718be455ad960f928d84c77eba86849faf744deb2c6e2d2b63f7fcb0d32b4.png" height="64px" width="64px"/>Progress Report</h1>
+        <h1> <img src="/assets/logo-7e1718be455ad960f928d84c77eba86849faf744deb2c6e2d2b63f7fcb0d32b4.png" height="64px" width="64px" />Progress Report</h1>
       </header>
       <section className="report-header">
         <header className="left">
@@ -122,32 +120,35 @@ var ProgressReport = React.createClass({
           <h3><i className="fa fa-calendar" />{new Date().getMonth() + 1}/{new Date().getDate()}/{new Date().getFullYear()}</h3>
           <h3 className="cohort"><i className="fa fa-users" />{this.props.cohort}</h3>
         </header>
-        {/* <header className="right">
-        </header> */}
       </section>
-      {this.state.showForm && <section className="feedback-form">
-        <label>What is {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} doing well?</label>
-        <textarea placeholder="Great CSS, good job creating re-usable code, etc..." onChange={this.handleChange} name="success"></textarea>
-        <label>Where can {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} improve?</label>
-        <textarea placeholder="Work on problem solving, repeat old homeworks, etc...." onChange={this.handleChange} name="improvement"></textarea>
-        <label>Attendance:</label>
-        <textarea onChange={this.handleChange} name="attendance">None</textarea>
-        <button onClick={this.createReport} >create</button>
-      </section>}
-      <ul>
-        {this.state.studentAssignments.map(ass => {
-          return <li>{ass.homework.name} | {ass.score}</li>
-        })}
-      </ul>
-      {!this.state.showForm && <section className="feedback-form">
-        <label>What is {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} doing well?</label>
-        <section>{this.state.success}</section>
-        <label>Where can {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} improve?</label>
-        <section >{this.state.improvement}</section>
-        <label>Attendance:</label>
-        <pre onChange={this.handleChange} name="attendance">{this.state.attendance}</pre>
-        <button className="noprint" onClick={this.goToNextStudent}>Next</button>
-      </section>}
+      <hr />
+      <section className="report-body">
+        {this.state.showForm && <section className="feedback-form">
+          <label>What is {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} doing well?</label>
+          <textarea placeholder="Great CSS, good job creating re-usable code, etc..." onChange={this.handleChange} name="success"></textarea>
+          <label>Where can {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} improve?</label>
+          <textarea placeholder="Work on problem solving, repeat old homeworks, etc...." onChange={this.handleChange} name="improvement"></textarea>
+          <label>Attendance:</label>
+          <textarea onChange={this.handleChange} name="attendance">None</textarea>
+          <button onClick={this.createReport} >create</button>
+        </section>}
+
+        {!this.state.showForm && <section className="feedback-report">
+          <label>What is {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} doing well?</label>
+          <section>{this.state.success}</section>
+          <label>Where can {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} improve?</label>
+          <section >{this.state.improvement}</section>
+          <label>Attendance:</label>
+          <section onChange={this.handleChange} name="attendance">{this.state.attendance}</section>
+          <button className="noprint" onClick={this.goToNextStudent}>Next</button>
+        </section>}
+        <ul>
+          {this.state.studentAssignments.map(ass => {
+            return <li>{ass.homework.name} | {ass.score}</li>
+          })}
+        </ul>
+      </section>
+
     </section>)
   }
 })
@@ -177,12 +178,12 @@ var StudentProgressReport = React.createClass({
       })
     fetch('/students.json')
       .then(resp => resp.json())
-      .then(json => this.setState({ students: json },  this.startNextProgressReport))
+      .then(json => this.setState({ students: json }))
   },
 
   componentDidMount: function () {
     this.fetchData();
-   
+
   },
 
   startProgressReports: function (selectedHomework) {
