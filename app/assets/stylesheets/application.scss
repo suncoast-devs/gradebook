@@ -153,11 +153,8 @@ table#students {
 .progress-report{
   .assignments main{
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: column;
     width: 100%;
-    *{
-      flex-grow: 1;
-    }
   }
   
   .score_0 { stroke: lightgray; border: 1px solid black;  }
@@ -166,10 +163,13 @@ table#students {
   .score_3 { stroke: $brand-info; }
   .score_4 { stroke: $brand-primary; }
 
-  .foo {
-    stroke: $brand-primary;
+  
+  .ct-chart svg{
+    display: block;
+    margin: auto;
+    position: initial;
   }
-  .bar{
-    stroke: pink;
+  .assignment-graph{
+    height:20em;
   }
 }

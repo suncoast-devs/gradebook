@@ -89,18 +89,18 @@ var ProgressReport = React.createClass({
   componentDidUpdate: function () {
     new Chartist.Pie('.ct-chart', {
       series: [
-        { value: 4, className: 'score_0' },
+        { value: 4, className: 'score_0', name:"Incomplete" },
         { value: 3, className: 'score_1' },
         { value: 5, className: 'score_2' },
         { value: 6, className: 'score_3' },
         { value: 7, className: 'score_4' }]
     }, {
         height: "200px",
-        width: "400px",
+        width: "600px",
         donut: true,
-        donutWidth: 40,
+        donutWidth: 45,
+        // total:(4+3+5+6+7) * 2, //total of assignments * 2
         startAngle: 270,
-        showLabel: true
       });
 
   },
@@ -163,9 +163,9 @@ var ProgressReport = React.createClass({
           <button className="noprint" onClick={this.goToNextStudent}>Next</button>
         </section>}
         <section className="assignments">
-          <header>Assignments</header>
+          <h3>Assignments</h3>
           <main>
-            <section>
+            <section className="assignment-graph">
               <div className="ct-chart ct-perfect-fourth"></div>
             </section>
             <ul>
