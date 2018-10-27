@@ -150,3 +150,26 @@ table#students {
     margin-bottom:2.5em;
   }
 }
+.progress-report{
+  .assignments main{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    *{
+      flex-grow: 1;
+    }
+  }
+  
+  .score_0 { stroke: lightgray; border: 1px solid black;  }
+  .score_1 { stroke: $brand-danger; }
+  .score_2 { stroke: $brand-warning; }
+  .score_3 { stroke: $brand-info; }
+  .score_4 { stroke: $brand-primary; }
+
+  .foo {
+    stroke: $brand-primary;
+  }
+  .bar{
+    stroke: pink;
+  }
+}

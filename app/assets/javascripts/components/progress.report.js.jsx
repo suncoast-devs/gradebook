@@ -85,6 +85,26 @@ var ProgressReport = React.createClass({
       })
   },
 
+
+  componentDidUpdate: function () {
+    new Chartist.Pie('.ct-chart', {
+      series: [
+        { value: 4, className: 'score_0' },
+        { value: 3, className: 'score_1' },
+        { value: 5, className: 'score_2' },
+        { value: 6, className: 'score_3' },
+        { value: 7, className: 'score_4' }]
+    }, {
+        height: "200px",
+        width: "400px",
+        donut: true,
+        donutWidth: 40,
+        startAngle: 270,
+        showLabel: true
+      });
+
+  },
+
   componentDidMount: function () {
     this.fetchData();
   },
@@ -110,7 +130,7 @@ var ProgressReport = React.createClass({
   },
 
   render: function () {
-    return (<section>
+    return (<section className="progress-report">
       <header className="report-title">
         <h1> <img src="/assets/logo-7e1718be455ad960f928d84c77eba86849faf744deb2c6e2d2b63f7fcb0d32b4.png" height="64px" width="64px" />Progress Report</h1>
       </header>
@@ -142,11 +162,19 @@ var ProgressReport = React.createClass({
           <section onChange={this.handleChange} name="attendance">{this.state.attendance}</section>
           <button className="noprint" onClick={this.goToNextStudent}>Next</button>
         </section>}
-        <ul>
-          {this.state.studentAssignments.map(ass => {
-            return <li>{ass.homework.name} | {ass.score}</li>
-          })}
-        </ul>
+        <section className="assignments">
+          <header>Assignments</header>
+          <main>
+            <section>
+              <div className="ct-chart ct-perfect-fourth"></div>
+            </section>
+            <ul>
+              {this.state.studentAssignments.map(ass => {
+                return <li>{ass.homework.name} | {ass.score}</li>
+              })}
+            </ul>
+          </main>
+        </section>
       </section>
 
     </section>)
