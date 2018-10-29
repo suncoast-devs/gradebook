@@ -11,7 +11,6 @@ var SelectAssignments = React.createClass({
   },
 
   updateSelectedList: function (e) {
-    console.log({ e: e.target })
     if (e.target.checked) {
       // adding to list
       this.setState({
@@ -73,39 +72,39 @@ var ProgressReport = React.createClass({
       showForm: true,
       attendance: "No Attendance Issues"
     };
+
   },
+
   fetchData: function () {
     fetch(`/students/${this.props.student.id}/assignments.json`)
       .then(resp => resp.json())
       .then(json => {
-        console.log(json)
+        console.log("got student data", { json })
         this.setState({
           studentAssignments: json.filter(f => this.state.assignmentIds.includes(f.homework.id))
         })
       })
   },
 
-
   componentDidUpdate: function () {
-    new Chartist.Pie('.ct-chart', {
-      series: [
-        { value: 4, className: 'score_0', name:"Incomplete" },
-        { value: 3, className: 'score_1' },
-        { value: 5, className: 'score_2' },
-        { value: 6, className: 'score_3' },
-        { value: 7, className: 'score_4' }]
-    }, {
-        height: "200px",
-        width: "600px",
-        donut: true,
-        donutWidth: 45,
-        // total:(4+3+5+6+7) * 2, //total of assignments * 2
-        startAngle: 270,
-      });
+    console.log("updated")
+    this.fetchData();
+
+  },
+
+  shouldComponentUpdate: function (nextProps, nextState) {
+    const _should = (nextProps.student.id !== this.props.student.id ||
+      this.state.showForm !== nextState.showForm ||
+      JSON.stringify(this.state.studentAssignments) !== JSON.stringify(nextState.studentAssignments)
+    )
+
+    console.log("shu", { nextProps, nextState, _should });
+    return _should;
 
   },
 
   componentDidMount: function () {
+    console.log("mounted")
     this.fetchData();
   },
 
@@ -149,7 +148,7 @@ var ProgressReport = React.createClass({
           <label>Where can {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} improve?</label>
           <textarea placeholder="Work on problem solving, repeat old homeworks, etc...." onChange={this.handleChange} name="improvement"></textarea>
           <label>Attendance:</label>
-          <textarea onChange={this.handleChange} name="attendance">None</textarea>
+          <textarea onChange={this.handleChange} name="attendance" value="None"></textarea>
           <button onClick={this.createReport} >create</button>
         </section>}
 
@@ -199,7 +198,6 @@ var StudentProgressReport = React.createClass({
     fetch(`/homework.json`)
       .then(resp => resp.json())
       .then(json => {
-        console.log(json)
         this.setState({
           homework: json
         })
@@ -215,7 +213,6 @@ var StudentProgressReport = React.createClass({
   },
 
   startProgressReports: function (selectedHomework) {
-    console.log("got", selectedHomework)
     this.setState({
       currentStep: 2,
       currentStudent: {

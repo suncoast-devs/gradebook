@@ -3,6 +3,13 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
+
+$incomplete:lightgrey;
+$unacceptable:#9a1814;
+$needs-improvement:#d59f26;
+$meets-expectations:#54a3b9;
+$exceeds-expectations:#52a70f;
+
 html {
   position: relative;
   min-height: 100%;
@@ -157,11 +164,11 @@ table#students {
     width: 100%;
   }
   
-  .score_0 { stroke: lightgray; border: 1px solid black;  }
-  .score_1 { stroke: $brand-danger; }
-  .score_2 { stroke: $brand-warning; }
-  .score_3 { stroke: $brand-info; }
-  .score_4 { stroke: $brand-primary; }
+  .score_0 { stroke: $incomplete; }
+  .score_1 { stroke: $unacceptable; }
+  .score_2 { stroke: $needs-improvement; }
+  .score_3 { stroke: $meets-expectations; }
+  .score_4 { stroke: $exceeds-expectations; }
 
   
   .ct-chart svg{
@@ -171,5 +178,9 @@ table#students {
   }
   .assignment-graph{
     height:20em;
+    flex-grow: 2;
+  }
+  .assignment-graph-row{
+    display: flex;
   }
 }
