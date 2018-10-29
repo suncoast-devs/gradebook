@@ -2,6 +2,30 @@
 
 var BS = ReactBootstrap;
 
+var AssignmentScore = React.createClass({
+  getInitialState: function () {
+    return {
+    };
+  },
+
+  render: function () {
+    switch (this.props.score) {
+      case 0:
+        return <div>Incomplete</div>
+      case 1:
+        return <div>Unacceptable</div>
+      case 2:
+        return <div>Needs Improvement</div>
+      case 3:
+        return <div>Meets Expectations</div>
+      case 4:
+        return <div>Exceeds Expectations</div>
+      default:
+        return <div>Unknown</div>
+    }
+  }
+})
+
 
 var SelectAssignments = React.createClass({
   getInitialState: function () {
@@ -164,12 +188,14 @@ var ProgressReport = React.createClass({
         <section className="assignments">
           <h3>Assignments</h3>
           <main>
-            <section className="assignment-graph">
-              <div className="ct-chart ct-perfect-fourth"></div>
-            </section>
             <ul>
               {this.state.studentAssignments.map(ass => {
-                return <li>{ass.homework.name} | {ass.score}</li>
+                return <li className={`score_${ass.score}`}>
+                  <h3>
+                    {ass.homework.name}
+                  </h3>
+                  <AssignmentScore score={ass.score} />
+                </li>
               })}
             </ul>
           </main>
