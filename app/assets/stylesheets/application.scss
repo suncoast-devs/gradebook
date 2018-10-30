@@ -246,6 +246,9 @@ table#students {
       flex-basis: 25%;
       margin: 1em;
       max-width: 20%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
   }
   hr{

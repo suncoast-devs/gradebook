@@ -99,7 +99,6 @@ var StudentList = React.createClass({
       <thead>
         <tr>
           <th>Name</th>
-          <td>progress report</td>
           <th><i className="fa fa-lg fa-github-alt" /></th>
           {homeworkHeaderNodes}
           <th>% Complete</th>
@@ -199,9 +198,6 @@ var StudentListItem = React.createClass({
         <BS.ModalTrigger modal={<EditStudentModal {...this.props} onFormSubmit={this.handleUpdate} />}>
           <a href="#">{student.name}</a>
         </BS.ModalTrigger>
-      </td>
-      <td>
-        <a href={"/students/" + student.id}>create</a>
       </td>
       <td>
         <a target="_blank" href={"https://github.com/" + student.github}>@{student.github}</a>
