@@ -88,7 +88,6 @@ table#students {
   }
   body{
   padding-top: 72px;
-  padding-bottom: 72px ;
   }
 
     .noprint{
@@ -157,7 +156,7 @@ table#students {
 .feedback-report{
   max-height: 40%;
   section{
-    margin-bottom:2.5em;
+    margin-bottom:1.5em;
   }
 }
 .progress-report{
@@ -243,6 +242,10 @@ table#students {
       box-shadow: 6px 6px 5px 0px rgba(207,207,207,0.44) !important;
       border: 1px solid rgba(207,207,207,0.44);
       border-radius: 2px;
+      flex-grow: 1;
+      flex-basis: 25%;
+      margin: 1em;
+      max-width: 20%;
     }
   }
 }

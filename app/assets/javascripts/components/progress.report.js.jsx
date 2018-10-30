@@ -130,7 +130,7 @@ var ProgressReport = React.createClass({
       .then(json => {
         this.setState({
           studentAssignments: json.filter(f => this.state.assignmentIds.includes(f.homework.id)),
-          summary: json.reduce((acc, item) => {
+          summary: json.filter(f => this.state.assignmentIds.includes(f.homework.id)).reduce((acc, item) => {
             if (acc[item.score]) {
               acc[item.score]++
             } else {
