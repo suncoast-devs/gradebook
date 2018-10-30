@@ -9,7 +9,7 @@ var AssignmentScore = React.createClass({
   },
 
   render: function () {
-    switch (this.props.score) {
+    switch (parseInt(this.props.score, 10)) {
       case 0:
         return <div>Incomplete</div>
       case 1:
@@ -92,6 +92,7 @@ var ProgressReport = React.createClass({
   getInitialState: function () {
     return {
       studentAssignments: [],
+      summary: {},
       assignmentIds: this.props.assignments.map(m => m.id),
       showForm: true,
       attendance: "No Attendance Issues"
@@ -105,7 +106,16 @@ var ProgressReport = React.createClass({
       .then(json => {
         console.log("got student data", { json })
         this.setState({
-          studentAssignments: json.filter(f => this.state.assignmentIds.includes(f.homework.id))
+          studentAssignments: json.filter(f => this.state.assignmentIds.includes(f.homework.id)),
+          summary: json.reduce((acc, item) => {
+            console.log({ acc, item })
+            if (acc[item.score]) {
+              acc[item.score]++
+            } else {
+              acc[item.score] = 1;
+            }
+            return acc
+          }, {})
         })
       })
   },
@@ -188,16 +198,28 @@ var ProgressReport = React.createClass({
         <section className="assignments">
           <h3>Assignments</h3>
           <main>
-            <ul>
-              {this.state.studentAssignments.map(ass => {
-                return <li className={`score_${ass.score}`}>
-                  <h3>
-                    {ass.homework.name}
-                  </h3>
-                  <AssignmentScore score={ass.score} />
-                </li>
-              })}
-            </ul>
+            <section>
+              <header>Summary</header>
+              <ul>
+                {Object.keys(this.state.summary).map((sum, i) => {
+                  return (<li><AssignmentScore score={sum} /> {this.state.summary[sum]}</li>)
+                })}
+              </ul>
+            </section>
+            <section>
+
+              <header>Homeworks</header>
+              <ul>
+                {this.state.studentAssignments.map(ass => {
+                  return <li className={`score_${ass.score}`}>
+                    <h4>
+                      {ass.homework.name}
+                    </h4>
+                    <AssignmentScore score={ass.score} />
+                  </li>
+                })}
+              </ul>
+            </section>
           </main>
         </section>
       </section>
