@@ -11,17 +11,17 @@ var AssignmentScore = React.createClass({
   render: function () {
     switch (parseInt(this.props.score, 10)) {
       case 0:
-        return <div>Incomplete</div>
+        return <div className={this.props.className}>Incomplete</div>
       case 1:
-        return <div>Unacceptable</div>
+        return <div className={this.props.className}>Unacceptable</div>
       case 2:
-        return <div>Needs Improvement</div>
+        return <div className={this.props.className}>Needs Improvement</div>
       case 3:
-        return <div>Meets Expectations</div>
+        return <div className={this.props.className}>Meets Expectations</div>
       case 4:
-        return <div>Exceeds Expectations</div>
+        return <div className={this.props.className}>Exceeds Expectations</div>
       default:
-        return <div>Unknown</div>
+        return <div className={this.props.className}>Unknown</div>
     }
   }
 })
@@ -200,22 +200,22 @@ var ProgressReport = React.createClass({
           <main>
             <section>
               <header>Summary</header>
-              <ul>
+              <ul className="summary">
                 {Object.keys(this.state.summary).map((sum, i) => {
-                  return (<li><AssignmentScore score={sum} /> {this.state.summary[sum]}</li>)
+                  return (<li><AssignmentScore score={sum} className={`score_${sum}`}/><span className={`score_${sum}`}>{" : " +this.state.summary[sum]}</span></li>)
                 })}
               </ul>
             </section>
             <section>
 
-              <header>Homeworks</header>
-              <ul>
+              <header>Results</header>
+              <ul className="assignments-list"> 
                 {this.state.studentAssignments.map(ass => {
-                  return <li className={`score_${ass.score}`}>
-                    <h4>
+                  return <li>
+                    <h4 className={`score_${ass.score}`}>
                       {ass.homework.name}
                     </h4>
-                    <AssignmentScore score={ass.score} />
+                    <AssignmentScore score={ass.score} className={`score_${ass.score}`}/>
                   </li>
                 })}
               </ul>

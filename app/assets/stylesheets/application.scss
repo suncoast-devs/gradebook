@@ -4,7 +4,7 @@
 @import "font-awesome";
 
 
-$incomplete:lightgrey;
+$incomplete:#b4b4b4;
 $unacceptable:#9a1814;
 $needs-improvement:#d59f26;
 $meets-expectations:#54a3b9;
@@ -95,6 +95,7 @@ table#students {
         display:none;
     }
  
+    
 }
 
 
@@ -165,12 +166,16 @@ table#students {
     flex-direction: column;
     width: 100%;
   }
+
+  .assignments header{
+    font-style: italic;
+  }
   
-  .score_0 { color: $incomplete !important;; }
-  .score_1 { color: $unacceptable !important;; }
-  .score_2 { color: $needs-improvement !important;; }
-  .score_3 { color: $meets-expectations !important;; }
-  .score_4 { color: $exceeds-expectations !important;; }
+  .score_0 { -webkit-print-color-adjust: exact;color: $incomplete !important; }
+  .score_1 { -webkit-print-color-adjust: exact;color: $unacceptable !important; }
+  .score_2 { -webkit-print-color-adjust: exact;color: $needs-improvement !important; }
+  .score_3 { -webkit-print-color-adjust: exact;color: $meets-expectations !important; }
+  .score_4 { -webkit-print-color-adjust: exact;color: $exceeds-expectations !important; }
 
   
   .ct-chart svg{
@@ -184,5 +189,28 @@ table#students {
   }
   .assignment-graph-row{
     display: flex;
+  }
+
+  .summary{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    li{
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.25em;
+    }
+    span{
+    }
+  }
+
+  .assignments-list{
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    flex-wrap: wrap;
+    li{
+
+    }
   }
 }
