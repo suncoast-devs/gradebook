@@ -128,11 +128,9 @@ var ProgressReport = React.createClass({
     fetch(`/students/${this.props.student.id}/assignments.json`)
       .then(resp => resp.json())
       .then(json => {
-        console.log("got student data", { json })
         this.setState({
           studentAssignments: json.filter(f => this.state.assignmentIds.includes(f.homework.id)),
           summary: json.reduce((acc, item) => {
-            console.log({ acc, item })
             if (acc[item.score]) {
               acc[item.score]++
             } else {
@@ -145,7 +143,6 @@ var ProgressReport = React.createClass({
   },
 
   componentDidUpdate: function () {
-    console.log("updated")
     this.fetchData();
 
   },
@@ -155,14 +152,11 @@ var ProgressReport = React.createClass({
       this.state.showForm !== nextState.showForm ||
       JSON.stringify(this.state.studentAssignments) !== JSON.stringify(nextState.studentAssignments)
     )
-
-    console.log("shu", { nextProps, nextState, _should });
     return _should;
 
   },
 
   componentDidMount: function () {
-    console.log("mounted")
     this.fetchData();
   },
 
@@ -226,20 +220,20 @@ var ProgressReport = React.createClass({
               <header>Summary</header>
               <ul className="summary">
                 {Object.keys(this.state.summary).map((sum, i) => {
-                  return (<li><AssignmentScore score={sum} className={`score_${sum}`}/><span className={`score_${sum}`}>{" : " +this.state.summary[sum]}</span></li>)
+                  return (<li key={i}><AssignmentScore score={sum} className={`score_${sum}`} /><span className={`score_${sum}`}>{" : " + this.state.summary[sum]}</span></li>)
                 })}
               </ul>
             </section>
             <section>
 
               <header>Results</header>
-              <ul className="assignments-list"> 
+              <ul className="assignments-list">
                 {this.state.studentAssignments.map(ass => {
                   return <li>
                     <h4 className={`score_${ass.score}`}>
                       {ass.homework.name}
                     </h4>
-                    <AssignmentScoreBox score={ass.score} className={`score_${ass.score}`}/>
+                    <AssignmentScoreBox score={ass.score} className={`score_${ass.score}`} />
                   </li>
                 })}
               </ul>
@@ -285,6 +279,8 @@ var StudentProgressReport = React.createClass({
   },
 
   startProgressReports: function (selectedHomework) {
+    const _title = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()} ${this.state.students[this.state.currentStudent.next].name}`
+    document.title =  _title;
     this.setState({
       currentStep: 2,
       currentStudent: {
@@ -301,6 +297,8 @@ var StudentProgressReport = React.createClass({
         currentStep: 3
       })
     } else {
+      const _title = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()} ${this.state.students[this.state.currentStudent.next].name}`
+    document.title =  _title;
       this.setState({
         currentStep: 2,
         currentStudent: {
