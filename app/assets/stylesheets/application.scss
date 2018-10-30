@@ -177,7 +177,34 @@ table#students {
   .score_3 { -webkit-print-color-adjust: exact;color: $meets-expectations !important; }
   .score_4 { -webkit-print-color-adjust: exact;color: $exceeds-expectations !important; }
 
-  
+
+  .assignment-score-box{
+    padding:0.5em;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .assignment-score-box.score_0 { 
+    background-color: $incomplete !important; 
+    color: black !important;
+  }
+  .assignment-score-box.score_1 { 
+    background-color: $unacceptable !important; 
+    color: white !important;
+  }
+  .assignment-score-box.score_2 { 
+    background-color: $needs-improvement !important; 
+    color: white !important;
+  }
+
+  .assignment-score-box.score_3 { 
+    background-color: $meets-expectations !important; 
+    color:white !important;
+  }
+  .assignment-score-box.score_4 { 
+    background-color: $exceeds-expectations !important;
+    color: white !important;
+   }
+
   .ct-chart svg{
     display: block;
     margin: auto;
@@ -209,8 +236,13 @@ table#students {
     justify-content: space-around;
     list-style: none;
     flex-wrap: wrap;
+    h4{
+      padding:0.5em;
+    }
     li{
-
+      box-shadow: 6px 6px 5px 0px rgba(207,207,207,0.44) !important;
+      border: 1px solid rgba(207,207,207,0.44);
+      border-radius: 2px;
     }
   }
 }

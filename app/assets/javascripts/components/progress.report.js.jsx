@@ -26,6 +26,30 @@ var AssignmentScore = React.createClass({
   }
 })
 
+var AssignmentScoreBox = React.createClass({
+  getInitialState: function () {
+    return {
+    };
+  },
+
+  render: function () {
+    switch (parseInt(this.props.score, 10)) {
+      case 0:
+        return <div className={"assignment-score-box " + this.props.className}>Incomplete</div>
+      case 1:
+        return <div className={"assignment-score-box " + this.props.className}>Unacceptable</div>
+      case 2:
+        return <div className={"assignment-score-box " + this.props.className}>Needs Improvement</div>
+      case 3:
+        return <div className={"assignment-score-box " + this.props.className}>Meets Expectations</div>
+      case 4:
+        return <div className={"assignment-score-box " + this.props.className}>Exceeds Expectations</div>
+      default:
+        return <div className={"assignment-score-box " + this.props.className}>Unknown</div>
+    }
+  }
+})
+
 
 var SelectAssignments = React.createClass({
   getInitialState: function () {
@@ -215,7 +239,7 @@ var ProgressReport = React.createClass({
                     <h4 className={`score_${ass.score}`}>
                       {ass.homework.name}
                     </h4>
-                    <AssignmentScore score={ass.score} className={`score_${ass.score}`}/>
+                    <AssignmentScoreBox score={ass.score} className={`score_${ass.score}`}/>
                   </li>
                 })}
               </ul>
