@@ -192,7 +192,7 @@ var ProgressReport = React.createClass({
           <h3 className="cohort"><i className="fa fa-users" />{this.props.cohort}</h3>
         </header>
       </section>
-      <hr />
+
       <section className="report-body">
         {this.state.showForm && <section className="feedback-form">
           <label>What is {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} doing well?</label>
@@ -224,6 +224,7 @@ var ProgressReport = React.createClass({
                 })}
               </ul>
             </section>
+            <hr/>
             <section>
 
               <header>Results</header>
