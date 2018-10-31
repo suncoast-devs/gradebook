@@ -119,7 +119,8 @@ var ProgressReport = React.createClass({
       summary: {},
       assignmentIds: this.props.assignments.map(m => m.id),
       showForm: true,
-      attendance: "No Attendance Issues"
+      attendance: "No Attendance Issues", 
+      dateRange: `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`
     };
 
   },
@@ -138,6 +139,26 @@ var ProgressReport = React.createClass({
             }
             return acc
           }, {})
+        }, () => {
+          // get date range 
+          let firstDate = new Date(Date.now() + 24 * 60 * 60 * 1000); 
+          let lateDate = new Date(Date.now() - (24 * 60 * 60 * 1000 * 100) )
+          console.log({firstDate, lateDate})
+          this.state.studentAssignments.forEach(assignment => {
+            console.log({assignment})
+            if (new Date(assignment.created_at) < firstDate){
+              console.log(assignment.created_at, " is before  ", firstDate)
+              firstDate = new Date(assignment.created_at);
+            }
+            if (new Date(assignment.created_at) > lateDate){
+              console.log(assignment.created_at, " is after  ", lateDate)
+              lateDate = new Date(assignment.created_at);
+            }
+          });
+          console.log("date range: ", {firstDate, lateDate})
+          this.setState({
+            dateRange: `${firstDate.getMonth() + 1}/${firstDate.getDate()}/${firstDate.getFullYear()} to ${lateDate.getMonth() + 1}/${lateDate.getDate()}/${lateDate.getFullYear()}`
+          })
         })
       })
   },
@@ -150,6 +171,7 @@ var ProgressReport = React.createClass({
   shouldComponentUpdate: function (nextProps, nextState) {
     const _should = (nextProps.student.id !== this.props.student.id ||
       this.state.showForm !== nextState.showForm ||
+      this.state.dateRange !== nextState.dateRange || 
       JSON.stringify(this.state.studentAssignments) !== JSON.stringify(nextState.studentAssignments)
     )
     return _should;
@@ -183,12 +205,12 @@ var ProgressReport = React.createClass({
   render: function () {
     return (<section className="progress-report">
       <header className="report-title">
-        <h1> <img src="/assets/logo-7e1718be455ad960f928d84c77eba86849faf744deb2c6e2d2b63f7fcb0d32b4.png" height="64px" width="64px" />Progress Report</h1>
+        <h1> <img src="/assets/logo-7e1718be455ad960f928d84c77eba86849faf744deb2c6e2d2b63f7fcb0d32b4.png" height="64px" width="64px" />Progress Report for {this.props.student.name}</h1>
       </header>
       <section className="report-header">
         <header className="left">
-          <h3 className="student-name"><i className="fa fa-user" />{this.props.student.name}</h3>
-          <h3><i className="fa fa-calendar" />{new Date().getMonth() + 1}/{new Date().getDate()}/{new Date().getFullYear()}</h3>
+          {/* <h3 className="student-name"><i className="fa fa-user" /></h3> */}
+          <h3><i className="fa fa-calendar" />{this.state.dateRange}</h3>
           <h3 className="cohort"><i className="fa fa-users" />{this.props.cohort}</h3>
         </header>
       </section>
