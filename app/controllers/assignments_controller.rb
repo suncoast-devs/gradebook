@@ -75,7 +75,7 @@ class AssignmentsController < ApplicationController
     def find_assignment
       @assignment = @student.assignments.find(params[:id])
     end
-
+    
     def assignment_params
       params[:assignment].permit(:homework_id, :score)
     end

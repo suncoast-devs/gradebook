@@ -3,6 +3,13 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
+
+$incomplete:#b4b4b4;
+$unacceptable:#9a1814;
+$needs-improvement:#d59f26;
+$meets-expectations:#54a3b9;
+$exceeds-expectations:#52a70f;
+
 html {
   position: relative;
   min-height: 100%;
@@ -64,4 +71,190 @@ table#students {
 
 .assignment-score-buttons .current {
   color: #333;
+}
+
+
+
+
+// removes footer url from printed form
+@media print  
+{
+  a[href]:after {
+  content: none !important;
+  }
+  @page {
+  margin-top: 0;
+  margin-bottom: 0;
+  }
+  body{
+  padding-top: 72px;
+  }
+
+    .noprint{
+        display:none;
+    }
+ 
+    
+}
+
+
+.feedback-form{
+  display: flex;
+  flex-direction: column;
+}
+
+.report-header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1em;
+  .left{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    width: 100%;
+    h3,h4{
+      margin:0;
+      padding: 0;
+    }
+  }
+  .right{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .fa{
+    margin-right:0.5em;
+  }
+}
+
+.report-title{
+  display: flex;
+  justify-content: center;
+  text-decoration: underline;
+  font-weight: 300;
+  img{
+    margin-right: 0.5em;
+  }
+}
+
+.feedback-report,
+.report-body{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-evenly;
+  ul{
+    flex-grow:1
+  }
+  .feedback-form{
+    flex-grow: 1;
+  }
+}
+
+.feedback-report{
+  max-height: 40%;
+  section{
+    margin-bottom:1.5em;
+  }
+}
+.progress-report{
+  .assignments main{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .assignments header{
+    font-style: italic;
+  }
+  
+  .score_0 { -webkit-print-color-adjust: exact;color: $incomplete !important; }
+  .score_1 { -webkit-print-color-adjust: exact;color: $unacceptable !important; }
+  .score_2 { -webkit-print-color-adjust: exact;color: $needs-improvement !important; }
+  .score_3 { -webkit-print-color-adjust: exact;color: $meets-expectations !important; }
+  .score_4 { -webkit-print-color-adjust: exact;color: $exceeds-expectations !important; }
+
+
+  .assignment-score-box{
+    padding:0.5em;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .assignment-score-box.score_0 { 
+    background-color: $incomplete !important; 
+    color: black !important;
+  }
+  .assignment-score-box.score_1 { 
+    background-color: $unacceptable !important; 
+    color: white !important;
+  }
+  .assignment-score-box.score_2 { 
+    background-color: $needs-improvement !important; 
+    color: white !important;
+  }
+
+  .assignment-score-box.score_3 { 
+    background-color: $meets-expectations !important; 
+    color:white !important;
+  }
+  .assignment-score-box.score_4 { 
+    background-color: $exceeds-expectations !important;
+    color: white !important;
+   }
+
+  .ct-chart svg{
+    display: block;
+    margin: auto;
+    position: initial;
+  }
+  .assignment-graph{
+    height:20em;
+    flex-grow: 2;
+  }
+  .assignment-graph-row{
+    display: flex;
+  }
+
+  .summary{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    li{
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.25em;
+    }
+    span{
+    }
+  }
+
+  .assignments-list{
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    flex-wrap: wrap;
+    h4{
+      padding:0.5em;
+    }
+    li{
+      box-shadow: 6px 6px 5px 0px rgba(207,207,207,0.44) !important;
+      border: 1px solid rgba(207,207,207,0.44);
+      border-radius: 2px;
+      flex-grow: 1;
+      flex-basis: 25%;
+      margin: 1em;
+      max-width: 20%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+  hr{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-top: 1px solid lightgrey;
+    width: 100%;
+  }
 }

@@ -20,11 +20,10 @@ ActiveRecord::Schema.define(version: 20150817194651) do
     t.integer  "student_id"
     t.integer  "homework_id"
     t.integer  "issue"
-    t.integer  "score",       default: 0, null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "score",      default: 0, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
-
   add_index "assignments", ["homework_id"], name: "index_assignments_on_homework_id", using: :btree
   add_index "assignments", ["student_id"], name: "index_assignments_on_student_id", using: :btree
 

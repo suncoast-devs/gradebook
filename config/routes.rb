@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback' => 'sessions#create'
   get '/signout' => 'sessions#destroy', :as => :signout
 
+  get '/progress' => 'progress_report#index'
+  
   resources :cohorts
   resources :homework, only: [:index, :show, :create, :update, :destroy]
   resources :students, only: [:index, :show, :create, :update, :destroy] do

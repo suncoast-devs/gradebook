@@ -3,7 +3,9 @@
   <head>
     <title>Grade Book</title>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
     <%= csrf_meta_tags %>
   </head>
   <body>
@@ -17,6 +19,7 @@
         <ul class="nav navbar-nav"><% if current_user %>
           <li class="<%= "active" if controller_name == "students" %>"><%= link_to "Students", students_path %></li>
           <li class="<%= "active" if controller_name == "homework" %>"><%= link_to "Homework", homework_index_path %></li>
+          <li class="<%= "active" if controller_name == "progress_report" %>"><%= link_to "Progress Report", progress_path %></li>
         <% end %></ul>
         <ul class="nav navbar-nav navbar-right">
           <%- if current_user -%>
@@ -42,7 +45,7 @@
       <%= flash_messages %>
       <%= yield %>
     </div>
-    <footer class="footer">
+    <footer class="footer noprint">
       <div class="container">
         <p><%= image_tag "logo.png", :size => '64x64' %></p>
       </div>

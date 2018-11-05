@@ -185,8 +185,8 @@ var StudentListItem = React.createClass({
           return null;
         }.bind(this)();
       };
-
-      if (issue.state !== 'open') {
+      
+      if (issue && issue.state !== 'open') {
         closedIssueCount++;
       }
 
