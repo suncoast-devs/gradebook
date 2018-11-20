@@ -86,7 +86,7 @@ var SelectAssignments = React.createClass({
               <input type="checkbox" id={hw.id} value={hw.id} onClick={this.updateSelectedList} />
               <label htmlFor={hw.id}>
                 <span>
-                  {hw.name}
+                  {hw.title}
                 </span>
               </label>
             </li>)
@@ -99,7 +99,7 @@ var SelectAssignments = React.createClass({
           {this.state.selectedHomework.map((hw) => {
             return (<li key={hw.id}>
               <span>
-                {hw.name}
+                {hw.title}
               </span>
 
             </li>)
@@ -254,7 +254,7 @@ var ProgressReport = React.createClass({
                 {this.state.studentAssignments.map(ass => {
                   return <li>
                     <h4 className={`score_${ass.score}`}>
-                      {ass.homework.name}
+                      {ass.homework.title}
                     </h4>
                     <AssignmentScoreBox score={ass.score} className={`score_${ass.score}`} />
                   </li>
