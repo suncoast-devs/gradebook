@@ -222,7 +222,7 @@ var ProgressReport = React.createClass({
           <label>Where can {this.props.student.name.substr(0, this.props.student.name.indexOf(' '))} improve?</label>
           <textarea placeholder="Work on problem solving, repeat old homeworks, etc...." onChange={this.handleChange} name="improvement"></textarea>
           <label>Attendance:</label>
-          <textarea onChange={this.handleChange} name="attendance" value="None"></textarea>
+          <textarea onChange={this.handleChange} name="attendance" placeholder={this.state.attendance}></textarea>
           <button onClick={this.createReport} >create</button>
         </section>}
 
