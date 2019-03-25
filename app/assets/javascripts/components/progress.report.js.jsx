@@ -254,7 +254,7 @@ var ProgressReport = React.createClass({
                 {this.state.studentAssignments.map(ass => {
                   return <li>
                     <h4 className={`score_${ass.score}`}>
-                      {ass.homework.title}
+                      {ass.homework.summary.replace(/#/g,'')}
                     </h4>
                     <AssignmentScoreBox score={ass.score} className={`score_${ass.score}`} />
                   </li>
@@ -264,7 +264,6 @@ var ProgressReport = React.createClass({
           </main>
         </section>
       </section>
-
     </section>)
   }
 })
