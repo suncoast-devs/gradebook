@@ -251,7 +251,7 @@ var ProgressReport = React.createClass({
 
               <header>Results</header>
               <ul className="assignments-list">
-                {this.state.studentAssignments.map(ass => {
+                {this.state.studentAssignments.reverse().map(ass => {
                   return <li>
                     <h4 className={`score_${ass.score}`}>
                       {ass.homework.summary.replace(/#/g,'')}
