@@ -130,7 +130,7 @@ var ProgressReport = React.createClass({
       .then(resp => resp.json())
       .then(json => {
         this.setState({
-          studentAssignments: json.filter(f => this.state.assignmentIds.includes(f.homework.id)),
+          studentAssignments: json.filter(f => this.state.assignmentIds.includes(f.homework.id)).reverse(),
           summary: json.filter(f => this.state.assignmentIds.includes(f.homework.id)).reduce((acc, item) => {
             if (acc[item.score]) {
               acc[item.score]++
@@ -251,7 +251,7 @@ var ProgressReport = React.createClass({
 
               <header>Results</header>
               <ul className="assignments-list">
-                {this.state.studentAssignments.reverse().map(ass => {
+                {this.state.studentAssignments.map(ass => {
                   return <li>
                     <h4 className={`score_${ass.score}`}>
                       {ass.homework.summary.replace(/#/g,'')}
